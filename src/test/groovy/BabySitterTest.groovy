@@ -13,4 +13,17 @@ class BabySitterTest extends Specification {
     then: "He or she should be paid \$12"
       paymentDue == 12
   }
+
+  def """When a baby sitter starts their shift after they end their shift an
+    IllegalArgumentException should be thrown"""() {
+    given: "A baby sitter"
+      def babySitter = new BabySitter()
+      def isoDateTimeParser = ISODateTimeFormat.dateTimeParser()
+    when: "The baby sitter's start time falls before their end time"
+      def startTime = isoDateTimeParser.parseDateTime('2016-04-01T18:00:00-05')
+      def endTime = isoDateTimeParser.parseDateTime('2016-04-01T17:00:00-05')
+      def paymentDue = babySitter.calculatePaymentDue(startTime,endTime)
+    then:
+      thrown IllegalArgumentException
+    }
 }

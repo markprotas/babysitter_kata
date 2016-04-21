@@ -1,6 +1,10 @@
 .gradle
 build/
 
+# Ignore vim temporary files
+*.swp
+*.swo
+
 # Ignore Gradle GUI config
 gradle-app.setting
 
