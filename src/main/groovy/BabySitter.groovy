@@ -1,5 +1,6 @@
 import com.google.common.base.Preconditions
 import org.joda.time.LocalDateTime
+import org.joda.time.Days
 
 class BabySitter {
   /**
@@ -17,10 +18,19 @@ class BabySitter {
   }
 
   def validatePreconditions(LocalDateTime startTime, LocalDateTime endTime) {
-    Preconditions.checkArgument(startTime < endTime, """The start time
+    Preconditions.checkArgument(startTime < endTime, """The shift's start time
                                 ($startTime) must be before the end time
                                 ($endTime)""")
-    Preconditions.checkArgument(startTime.getHourOfDay() >= 17, """The start time
+    Preconditions.checkArgument(startTime.getHourOfDay() >= 17, """The shift's start time
                                 ($startTime) must be on or after 5 PM""")
+    // If the shift has rolled over to the next day, it must end by 4 AM
+    if (Days.daysBetween(startTime, endTime).getDays() == 1) {
+      Preconditions.checkArgument(endTime.getHourOfDay() < 4 || 
+                                  (endTime.getHourOfDay() == 4 && 
+                                   endTime.getMinuteOfHour() == 0 &&
+                                   endTime.getSecondOfMinute() == 0 &&
+                                   endTime.getMillisOfSecond() == 0), """The shift's
+                                end time ($endTime) must be on or before 4 AM""")
+    }
   }
 }

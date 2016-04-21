@@ -30,12 +30,21 @@ class BabySitterTest extends Specification {
       thrown IllegalArgumentException
   }
 
+  def "A baby sitter should not fnish their shift after 4 AM the following day"() {
+    given: "A baby sitter"
+      def babySitter = new BabySitter()
+    when: "The baby sitter's start time is after 4 AM"
+      def paymentDue = buildDatesAndCalculatePayment(babySitter,'2016-04-01T16:00:00-05','2016-04-02T04:01:00-05')
+    then: "An IllegalArgumentException should be thrown"
+      thrown IllegalArgumentException
+  }
+
   def buildDatesAndCalculatePayment(BabySitter babySitter, 
                                     String startTimeISO8601, 
                                     String endTimeISO8601) {
       def isoDateTimeParser = ISODateTimeFormat.dateTimeParser()
       def startTime = isoDateTimeParser.parseLocalDateTime(startTimeISO8601)
       def endTime = isoDateTimeParser.parseLocalDateTime(endTimeISO8601)
-      babySitter.calculatePaymentDue(startTime,endTime)
+      babySitter.calculatePaymentDue(startTime, endTime)
   }
 }
