@@ -4,6 +4,9 @@ import org.joda.time.Days
 import org.joda.time.Hours
 
 class BabySitter {
+  private static final STANDARD_RATE = 12
+  private static final POST_BEDTIME_RATE = 8
+  private static final LATE_NIGHT_RATE = 16
   /**
     Calculates the nightly payment due to this baby sitter give the specified
     start and end times
@@ -16,7 +19,8 @@ class BabySitter {
   def calculatePaymentDue(LocalDateTime startTime, LocalDateTime endTime,
                           int bedTimeHour = 21) {
     validatePreconditions(startTime, endTime)
-    12
+    STANDARD_RATE
+
   }
 
   def validatePreconditions(LocalDateTime startTime, LocalDateTime endTime) {
