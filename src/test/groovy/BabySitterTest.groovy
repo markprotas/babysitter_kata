@@ -30,11 +30,20 @@ class BabySitterTest extends Specification {
       thrown IllegalArgumentException
   }
 
-  def "A baby sitter should not fnish their shift after 4 AM the following day"() {
+  def "A baby sitter should not finish their shift after 4 AM the following day"() {
     given: "A baby sitter"
       def babySitter = new BabySitter()
     when: "The baby sitter's start time is after 4 AM"
-      def paymentDue = buildDatesAndCalculatePayment(babySitter,'2016-04-01T16:00:00-05','2016-04-02T04:01:00-05')
+      def paymentDue = buildDatesAndCalculatePayment(babySitter,'2016-04-01T17:00:00-05','2016-04-02T04:01:00-05')
+    then: "An IllegalArgumentException should be thrown"
+      thrown IllegalArgumentException
+  }
+
+  def "A baby sitter should not be allowed to work for more than 11 consecutive hours"() {
+    given: "A baby sitter"
+      def babySitter = new BabySitter()
+    when: "The baby sitter's works"
+      def paymentDue = buildDatesAndCalculatePayment(babySitter,'2016-04-01T17:00:00-05','2016-04-03T02:00:00-05')
     then: "An IllegalArgumentException should be thrown"
       thrown IllegalArgumentException
   }
