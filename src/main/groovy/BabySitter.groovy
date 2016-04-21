@@ -19,8 +19,19 @@ class BabySitter {
   def calculatePaymentDue(LocalDateTime startTime, LocalDateTime endTime,
                           int bedTimeHour = 21) {
     validatePreconditions(startTime, endTime)
-    STANDARD_RATE
-
+    // since the baby sitter will not be paid for partial hours,
+    def intermediateTime = startTime.withMinuteOfHour(0).withSecondOfMinute(0).
+      withMillisOfSecond(0)
+    def cumulativePayment = 0
+    // walk the time foward from startTime to endTime in 1 hour increments
+    while (intermediateTime < endTime) {
+      if (intermediateTime.getHourOfDay() >= 17 && 
+          intermediateTime.getHourOfDay() < bedTimeHour) {
+        cumulativePayment += STANDARD_RATE
+      }
+      intermediateTime = intermediateTime.plusHours(1)
+    }
+    cumulativePayment
   }
 
   def validatePreconditions(LocalDateTime startTime, LocalDateTime endTime) {
@@ -30,10 +41,10 @@ class BabySitter {
     Preconditions.checkArgument(startTime.getHourOfDay() >= 17, """The shift's start time
                                 ($startTime) must be on or after 5 PM""")
     // If the shift has rolled over to the next day, it must end by 4 AM
-    if (Days.daysBetween(startTime.toLocalDate(), 
+    if (Days.daysBetween(startTime.toLocalDate(),
                          endTime.toLocalDate()).getDays() == 1) {
-      Preconditions.checkArgument(endTime.getHourOfDay() < 4 || 
-                                  (endTime.getHourOfDay() == 4 && 
+      Preconditions.checkArgument(endTime.getHourOfDay() < 4 ||
+                                  (endTime.getHourOfDay() == 4 &&
                                    endTime.getMinuteOfHour() <= 0 &&
                                    endTime.getSecondOfMinute() <= 0 &&
                                    endTime.getMillisOfSecond() <= 0), """The shift's
