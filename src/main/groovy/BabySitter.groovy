@@ -1,5 +1,5 @@
 import com.google.common.base.Preconditions
-import org.joda.time.DateTime
+import org.joda.time.LocalDateTime
 
 class BabySitter {
   /**
@@ -11,14 +11,16 @@ class BabySitter {
     @return an integer representing the payment due to this baby sitter for
       working the specified hours
     */
-  def calculatePaymentDue(DateTime startTime, DateTime endTime) {
+  def calculatePaymentDue(LocalDateTime startTime, LocalDateTime endTime) {
     validatePreconditions(startTime, endTime)
     12
   }
 
-  def validatePreconditions(DateTime startTime, DateTime endTime) {
-    Preconditions.checkArgument(startTime < endTime, """The start time 
-                                ($startTime) must be before the end time 
+  def validatePreconditions(LocalDateTime startTime, LocalDateTime endTime) {
+    Preconditions.checkArgument(startTime < endTime, """The start time
+                                ($startTime) must be before the end time
                                 ($endTime)""")
+    Preconditions.checkArgument(startTime.getHourOfDay() >= 17, """The start time
+                                ($startTime) must be on or after 5 PM""")
   }
 }
