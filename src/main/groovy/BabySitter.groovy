@@ -13,7 +13,8 @@ class BabySitter {
     @return an integer representing the payment due to this baby sitter for
       working the specified hours
     */
-  def calculatePaymentDue(LocalDateTime startTime, LocalDateTime endTime) {
+  def calculatePaymentDue(LocalDateTime startTime, LocalDateTime endTime,
+                          int bedTimeHour = 21) {
     validatePreconditions(startTime, endTime)
     12
   }
