@@ -29,6 +29,15 @@ class BabySitterTest extends Specification {
       paymentDue == 56
   }
 
+  def "When a baby sitter works from 5 PM-2:30 AM with a 9 PM bedtime, he or she should be paid \$120"() {
+    given: "A baby sitter"
+      def babySitter = new BabySitter()
+    when: "The baby sitter works from 5 PM-2:30 AM"
+      def paymentDue = buildDatesAndCalculatePayment(babySitter,'2016-04-01T17:00:00-05','2016-04-02T02:30:00-05')
+    then: "He or she should be paid \$120"
+      paymentDue == 120
+  }
+
   def """When a baby sitter starts their shift after they end their shift an
     IllegalArgumentException should be thrown"""() {
     given: "A baby sitter"
