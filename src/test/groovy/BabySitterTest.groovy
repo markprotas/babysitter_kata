@@ -2,7 +2,7 @@ import spock.lang.*
 import org.joda.time.format.*
 
 class BabySitterTest extends Specification {
-  def "When a baby sitter works from 5-6 PM, he or she should be paid \$12"() {
+  def "When a baby sitter works from 5-6 PM with a 9 PM bedtime, he or she should be paid \$12"() {
     given: "A baby sitter"
       def babySitter = new BabySitter()
     when: "The baby sitter works from 5-6 PM"
@@ -11,13 +11,22 @@ class BabySitterTest extends Specification {
       paymentDue == 12
   }
 
-  def "When a baby sitter works from 5-7:30 PM, he or she should be paid \$36"() {
+  def "When a baby sitter works from 5-7:30 PM with a 9 PM bedtime, he or she should be paid \$36"() {
     given: "A baby sitter"
       def babySitter = new BabySitter()
-    when: "The baby sitter works from 5-6 PM"
+    when: "The baby sitter works from 5-7:30 PM"
       def paymentDue = buildDatesAndCalculatePayment(babySitter,'2016-04-01T17:00:00-05','2016-04-01T19:30:00-05')
     then: "He or she should be paid \$36"
       paymentDue == 36
+  }
+
+  def "When a baby sitter works from 5-10 PM with a 9 PM bedtime, he or she should be paid \$56"() {
+    given: "A baby sitter"
+      def babySitter = new BabySitter()
+    when: "The baby sitter works from 5-10 PM"
+      def paymentDue = buildDatesAndCalculatePayment(babySitter,'2016-04-01T17:00:00-05','2016-04-01T22:00:00-05')
+    then: "He or she should be paid \$56"
+      paymentDue == 56
   }
 
   def """When a baby sitter starts their shift after they end their shift an

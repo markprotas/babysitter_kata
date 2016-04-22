@@ -25,9 +25,10 @@ class BabySitter {
     def cumulativePayment = 0
     // walk the time foward from startTime to endTime in 1 hour increments
     while (intermediateTime < endTime) {
-      if (intermediateTime.getHourOfDay() >= 17 && 
-          intermediateTime.getHourOfDay() < bedTimeHour) {
+      if (intermediateTime.getHourOfDay() < bedTimeHour) {
         cumulativePayment += STANDARD_RATE
+      } else if (intermediateTime.getHourOfDay() >= bedTimeHour) {
+        cumulativePayment += POST_BEDTIME_RATE
       }
       intermediateTime = intermediateTime.plusHours(1)
     }
