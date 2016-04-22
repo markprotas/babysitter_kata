@@ -21,6 +21,8 @@ repositories {
 dependencies {
     // We use the latest groovy 2.x version for building this library
     compile 'org.codehaus.groovy:groovy-all:2.4.6'
+    compile 'joda-time:joda-time:2.9.3'
+    compile 'com.google.guava:guava:19.0'
 
     // We use the awesome Spock testing and specification framework
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
